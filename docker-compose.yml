@@ -1,9 +1,9 @@
-version: "8.0"
+version: "3.8"
 
-servise:
-api_servise:
+services:
+api_service:
 restart: always
-imagee: "theartofdevel.bookapi:latest"
+image: "theartofdevel.bookapi:latest"
 container_name: apibooks-api_servise
 ports: 
 - 1000:1000
