@@ -6,7 +6,7 @@ COPY APIBooks/APIBooks.DAL.csproj APIBooks.DAL/
 
 RUN dotnet restore APIBooks/APIBooks.csproj
 
-COPY ..
+COPY . .
 
 RUN dotnet publish APIBooks/APIBooks.csproj -c Release -o /app/publish
 
