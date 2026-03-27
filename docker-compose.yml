@@ -6,4 +6,4 @@ restart: always
 image: "theartofdevel.bookapi:latest"
 container_name: apibooks-api_servise
 ports: 
-- 1000:1000
+- 1000:8080
