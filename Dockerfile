@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY APIBooks/APIBooks.csproj APIBooks/
-COPY APIBooks/APIBooks.DAL.csproj APIBooks.DAL/
+COPY APIBooks.DAL/APIBooks.DAL.csproj APIBooks.DAL/
 
 RUN dotnet restore APIBooks/APIBooks.csproj
 
