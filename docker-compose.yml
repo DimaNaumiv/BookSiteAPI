@@ -1,9 +1,37 @@
 version: "3.8"
 
 services:
-api_service:
+book-api:
 restart: always
+container_name: book-api
 image: "theartofdevel.bookapi:latest"
-container_name: apibooks-api_servise
+container_name: book-api
+environment:
+- ConnectionStrings__DockerConnection=Server=databaseSql;Database=Booksite;User Id=sa;Password=Dima1234!;TrustServerCertificate=True
+networks:
+- my-app-net
+depends_on:
+db_service:
+condition: service_healthy
 ports: 
 - 1000:8080
+
+databaseSql:
+image: mcr.microsoft.com/mssql/server
+container_name: databaseSql
+environment:
+- ACCEPT_EULA=Y
+- MSSQL_SA_PASSWORD=Dima1234!
+healthcheck:
+test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Dima1234!", "-Q", "SELECT 1"]
+interval: 10s
+retries: 5
+timeout: 5s
+ports:
+- "1433:1433"
+networks:
+- my-app-net
+
+networks:
+my-app-net:
+external: true
