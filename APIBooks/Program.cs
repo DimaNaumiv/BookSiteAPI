@@ -70,12 +70,12 @@ namespace APIBooks
 
             app.UseCors("ReactPolicy");
 
-            using (var scope = app.Services.CreateScope()
-                   {
-                       var dbContext = scope.ServiceProvider.GetRequiredService<BookSiteDbContext>();
-                           // Це змусить EF перевірити базу і створити таблиці за міграціями
-                       dbContext.Database.Migrate(); 
-                   }
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                // Це змусить EF перевірити базу і створити таблиці за міграціями
+                dbContext.Database.Migrate();
+            }
 
             app.UseAuthentication();
             app.UseAuthorization();
