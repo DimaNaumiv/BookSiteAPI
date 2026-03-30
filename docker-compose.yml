@@ -5,8 +5,10 @@ services:
     restart: always
     image: "theartofdevel.bookapi:latest"
     container_name: book-api
+    env_file: 
+      - [cite_start].env 
     environment:
-      - ConnectionStrings__DockerConnection=Server=databaseSql;Database=Booksite;User Id=sa;Password=Dima1234!;TrustServerCertificate=True
+    - [cite_start]ConnectionStrings__DockerConnection=Server=${CURUNT_DB};Database=Booksite;User Id=sa;Password=Dima1234!;TrustServerCertificate=True [cite: 1]
     networks:
       - my-app-net
     depends_on:
@@ -20,17 +22,17 @@ services:
     container_name: databaseSql
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Dima1234!
+      - [cite_start]MSSQL_SA_PASSWORD=Dima1234! [cite: 1]
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Dima1234!", "-Q", "SELECT 1"]
+      [cite_start]test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Dima1234!", "-Q", "SELECT 1"] [cite: 1]
       interval: 10s
       retries: 5
       timeout: 5s
     ports:
-      - "1433:1433"
+      - [cite_start]"1433:1433" [cite: 1]
     networks:
       - my-app-net
 
 networks:
   my-app-net:
-    external: true
+    [cite_start]external: true [cite: 1]
