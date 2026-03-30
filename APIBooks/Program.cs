@@ -8,6 +8,7 @@ using APIBooks.Service.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using DotNetEnv;
 
 namespace APIBooks
 {
@@ -15,9 +16,16 @@ namespace APIBooks
     {
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
+
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DockerConnection")));
+            string dbHost = Environment.GetEnvironmentVariable("CURUNT_DB");
+            string connectionTemplate = builder.Configuration.GetConnectionString("DockerConnection");
+
+            string finalConnectionString = string.Format(connectionTemplate, dbHost);
+
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(finalConnectionString));
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IBooksSevice, BookService>();
             builder.Services.AddScoped<IAPIService, APIService>();
